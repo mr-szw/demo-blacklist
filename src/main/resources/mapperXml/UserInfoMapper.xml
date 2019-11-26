@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blacklist.demo.mapper.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.blacklist.demo.entity.UserInfo">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="black_status" jdbcType="INTEGER" property="blackStatus" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, user_id, user_name, black_status, create_time, update_time
+  </sql>
+
+  <insert id="insert"  useGeneratedKeys="true" keyProperty="id" parameterType="com.blacklist.demo.entity.UserInfo">
+    insert into t_user_info (user_id, user_name,
+      black_status, create_time, update_time
+      )
+    values (#{userId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR},
+      #{blackStatus,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}
+      )
+  </insert>
+
+
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.blacklist.demo.entity.UserInfo">
+    insert into t_user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="blackStatus != null">
+        black_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="blackStatus != null">
+        #{blackStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+
+
+  <select id="getAllBlackListUserId" resultType="Long">
+    select  user_id
+    from t_user_info
+    where black_status = 1;
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from t_user_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from t_user_info
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+
+
+</mapper>
