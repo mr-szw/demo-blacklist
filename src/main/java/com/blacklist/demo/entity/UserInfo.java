@@ -16,5 +16,11 @@ public class UserInfo {
 
     private Long updateTime;
 
+    //生效时间
+    private Long effectTime;
+
+    //失效时间
+    private Long expiredTime;
+
 
 }

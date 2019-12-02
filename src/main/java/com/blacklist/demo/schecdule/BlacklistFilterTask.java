@@ -24,7 +24,7 @@ public class BlacklistFilterTask {
 	@Scheduled(cron = "0/15 *  *  * *  ?")
 	public void initBlacklistFilterTask() {
 		System.out.println("initBlacklistFilterTask + " + DateHelper.turnDateFormat(new Date(), "HH:mm ss SSS"));
-		userInfoService.initBlacklist();
+		//userInfoService.initBlacklist();
 	}
 
 	//fixedRate方式执行：  从上一个任务开始到下一个[任务开始]的间隔 启动后立刻执行 之后间隔执行 2 * 1000s

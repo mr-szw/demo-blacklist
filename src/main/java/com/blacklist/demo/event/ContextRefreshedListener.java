@@ -17,7 +17,7 @@ import com.blacklist.demo.service.UserInfoServiceImpl;
 	@Resource private UserInfoServiceImpl userInfoService;
 
 	@Override public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-		userInfoService.initBlacklist();
+		//userInfoService.initBlacklist();
 	}
 
 }

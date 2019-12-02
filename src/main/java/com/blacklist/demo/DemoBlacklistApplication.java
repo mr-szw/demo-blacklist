@@ -13,8 +13,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @MapperScan(basePackages = "com.blacklist.demo.mapper")
 public class DemoBlacklistApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
+
 		SpringApplication.run(DemoBlacklistApplication.class, args);
+
 	}
+
+
 
 }
