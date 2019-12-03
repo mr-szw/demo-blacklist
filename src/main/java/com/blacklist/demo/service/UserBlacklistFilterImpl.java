@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
-import com.blacklist.demo.init.BlackListBloomFilter;
 import com.blacklist.demo.mapper.UserInfoMapper;
 import com.blacklist.demo.utils.AbstractBloomFilter;
 
@@ -33,11 +32,10 @@ public class UserBlacklistFilterImpl extends AbstractBloomFilter {
 
 	@Override
 	public void initBloomFilter() {
-
-		BlackListBloomFilter blackListBloomFilter = BlackListBloomFilter.getBlackListBloomFilter();
+		UserBlacklistFilterImpl userBlacklistFilter = new UserBlacklistFilterImpl();
 		List<Long> allBlackListUserId = userInfoMapper.getAllBlackListUserId();
 		for (Long blackList : allBlackListUserId) {
-			blackListBloomFilter.putBlacklistUserId(blackList);
+			userBlacklistFilter.putElement(String.valueOf(blackList));
 		}
 	}
 }

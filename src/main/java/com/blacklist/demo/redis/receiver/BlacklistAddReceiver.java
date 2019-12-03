@@ -72,8 +72,6 @@ public class BlacklistAddReceiver implements MessageListener {
 		if (projectIdList.contains(projectId)) {
 			List<BloomFilterConfig> bloomFilterConfigs = bloomConfigMap.get(projectId);
 			BloomFilterConfig bloomFilterConfig = bloomFilterConfigs.get(0);
-			AbstractBloomFilter bloomFilter = bloomFilterConfig.getBloomFilter();
-			bloomFilter.putElement(blacklistInfo.getUserId());
 		}
 	}
 
