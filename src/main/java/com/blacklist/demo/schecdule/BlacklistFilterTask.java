@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.blacklist.demo.service.UserInfoServiceImpl;
+import com.blacklist.demo.service.UserBlacklistFilterImpl;
 import com.blacklist.demo.utils.DateHelper;
 
 /**
@@ -17,7 +17,7 @@ import com.blacklist.demo.utils.DateHelper;
 public class BlacklistFilterTask {
 
 	@Resource
-	private UserInfoServiceImpl userInfoService;
+	private UserBlacklistFilterImpl userInfoService;
 
 
 	//cron方式执行：     秒   分 时 日 月 年

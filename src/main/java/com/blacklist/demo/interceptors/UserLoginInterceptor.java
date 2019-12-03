@@ -2,7 +2,6 @@ package com.blacklist.demo.interceptors;
 
 import java.io.IOException;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.blacklist.demo.service.UserInfoServiceImpl;
+import com.blacklist.demo.service.UserBlacklistFilterImpl;
 
 /**
  * @author Dawei 2019/3/14
@@ -24,7 +23,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
 	private static final Logger logger = LoggerFactory.getLogger(UserLoginInterceptor.class);
 
 	@Resource
-	private UserInfoServiceImpl userInfoService;
+	private UserBlacklistFilterImpl userInfoService;
 
 //	@PostConstruct
 //	public void setUserInfoService(UserInfoServiceImpl userInfoService) {
