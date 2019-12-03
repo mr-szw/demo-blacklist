@@ -39,7 +39,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
 		Object userInfoObj = request.getSession().getAttribute("userInfo");
 		String userIdStr = request.getParameter("userId");
 		if (userIdStr != null) {
-			return !userInfoService.checkUserInBlacklist(Long.parseLong(userIdStr));
+			return !userInfoService.checkUserInBlacklist(userIdStr);
 		}
 
 		try {

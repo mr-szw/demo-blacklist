@@ -1,54 +1,58 @@
 package com.blacklist.demo.utils;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
-import javax.print.DocFlavor.BYTE_ARRAY;
-
-import com.blacklist.demo.module.BloomFilterConfig;
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
+
+import lombok.Data;
 
 /**
  * @author sinbad  on 2019/11/29
  */
-public abstract class AbstractBloomFilter<T> {
+@Data
+public abstract class AbstractBloomFilter {
 
-	private BloomFilter bloomFilter;
+	private BloomFilter<String> bloomFilter;
 
-	public AbstractBloomFilter(BloomFilterConfig bloomFilterConfig) throws Exception {
+	private Long projectId;
 
-		Type actualTypeArgument = ((ParameterizedType) getClass().getGenericSuperclass())
-				.getActualTypeArguments()[0];
+	//过滤器名字
+	private String filterName = "default";
 
-		if (!(actualTypeArgument instanceof Class<?>)) {
-			throw new RuntimeException("class type no support");
-		}
+	//过滤器名称
+	private String filterDesc = "default-desc";
 
+	//容器大小
+	private long containerSize = 100000;
 
-		if (Long.class.isAssignableFrom((Class<?>) actualTypeArgument)) {
-			bloomFilter = BloomFilter
-					.create(Funnels.longFunnel(), bloomFilterConfig.getContainerSize());
-		} else if (String.class.isAssignableFrom((Class<?>) actualTypeArgument)) {
-			bloomFilter = BloomFilter.create(Funnels.stringFunnel(StandardCharsets.UTF_8),
-					bloomFilterConfig.getContainerSize());
-		} else if (Integer.class.isAssignableFrom((Class<?>) actualTypeArgument)) {
-			bloomFilter = BloomFilter
-					.create(Funnels.integerFunnel(), bloomFilterConfig.getContainerSize());
-		} else if (BYTE_ARRAY.class.isAssignableFrom((Class<?>) actualTypeArgument)) {
-			bloomFilter = BloomFilter
-					.create(Funnels.byteArrayFunnel(), bloomFilterConfig.getContainerSize());
-		} else {
-			throw new RuntimeException("class type no support");
-		}
+	//生效时间
+	private Long effectTime = -1L;
+
+	//失效时间
+	private Long expiredTime = -1L;
+
+	public AbstractBloomFilter(Long projectId,
+			String filterName, String filterDesc, long containerSize, Long effectTime,
+			Long expiredTime) {
+		this.bloomFilter = BloomFilter.create(Funnels.stringFunnel(StandardCharsets.UTF_8), containerSize);
+		this.projectId = projectId;
+		this.filterName = filterName;
+		this.filterDesc = filterDesc;
+		this.containerSize = containerSize;
+		this.effectTime = effectTime;
+		this.expiredTime = expiredTime;
 	}
 
-	public boolean putElement(T element) {
+	public AbstractBloomFilter() {
+		this.bloomFilter = BloomFilter.create(Funnels.stringFunnel(StandardCharsets.UTF_8), containerSize);
+	}
+
+	public boolean putElement(String element) {
 		return bloomFilter.put(element);
 	}
 
-	public boolean checkUserInBlacklist(T element) {
+	public boolean checkUserInBlacklist(String element) {
 		return bloomFilter.mightContain(element);
 	}
 

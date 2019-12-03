@@ -1,6 +1,7 @@
 package com.blacklist.demo.module;
 
 import com.blacklist.demo.utils.AbstractBloomFilter;
+import com.google.common.hash.BloomFilter;
 
 import lombok.Data;
 
@@ -25,6 +26,6 @@ public class BloomFilterConfig {
 	private Long expiredTime = -1L;
 
 	//
-	private AbstractBloomFilter bloomFilter;
+	private BloomFilter<String> bloomFilter;
 
 }

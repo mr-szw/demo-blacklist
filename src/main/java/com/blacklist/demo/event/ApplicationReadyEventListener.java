@@ -4,11 +4,14 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import com.blacklist.demo.module.BloomFilterConfig;
+
 /**
- * Create by Dawei on 2019/11/26
+ * @author sinbad  on 2019/11/26
  */
 @Component
 public class ApplicationReadyEventListener implements ApplicationListener<ApplicationReadyEvent> {
+
 
 
 	@Override
@@ -18,6 +21,15 @@ public class ApplicationReadyEventListener implements ApplicationListener<Applic
 
 
 	private void doInitSomething() {
+
+		BloomFilterConfig bloomFilterConfig = new BloomFilterConfig();
+		bloomFilterConfig.setContainerSize(100L);
+		bloomFilterConfig.setEffectTime(-1L);
+		bloomFilterConfig.setExpiredTime(-1L);
+		bloomFilterConfig.setProjectId(-1L);
+
+
+
 
 	}
 }
