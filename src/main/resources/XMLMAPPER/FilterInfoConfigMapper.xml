@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blacklist.demo.mapper.FilterInfoConfigMapper">
+  <resultMap id="BaseResultMap" type="com.blacklist.demo.entity.FilterInfoConfig">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="project_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="project_desc" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="effect_status" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="effect_time" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="expired_time" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="create_time" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="update_time" javaType="java.lang.Long" jdbcType="BIGINT" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, project_id, project_desc, effect_status, effect_time, expired_time, create_time, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_blacklist_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_blacklist_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.blacklist.demo.entity.FilterInfoConfig">
+    insert into t_blacklist_config (id, project_id, project_desc, 
+      effect_status, effect_time, expired_time, 
+      create_time, update_time)
+    values (#{id,jdbcType=BIGINT}, #{projectId,jdbcType=BIGINT}, #{projectDesc,jdbcType=VARCHAR}, 
+      #{effectStatus,jdbcType=INTEGER}, #{effectTime,jdbcType=BIGINT}, #{expiredTime,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.blacklist.demo.entity.FilterInfoConfig">
+    insert into t_blacklist_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="projectDesc != null">
+        project_desc,
+      </if>
+      <if test="effectStatus != null">
+        effect_status,
+      </if>
+      <if test="effectTime != null">
+        effect_time,
+      </if>
+      <if test="expiredTime != null">
+        expired_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="projectDesc != null">
+        #{projectDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="effectStatus != null">
+        #{effectStatus,jdbcType=INTEGER},
+      </if>
+      <if test="effectTime != null">
+        #{effectTime,jdbcType=BIGINT},
+      </if>
+      <if test="expiredTime != null">
+        #{expiredTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blacklist.demo.entity.FilterInfoConfig">
+    update t_blacklist_config
+    <set>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="projectDesc != null">
+        project_desc = #{projectDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="effectStatus != null">
+        effect_status = #{effectStatus,jdbcType=INTEGER},
+      </if>
+      <if test="effectTime != null">
+        effect_time = #{effectTime,jdbcType=BIGINT},
+      </if>
+      <if test="expiredTime != null">
+        expired_time = #{expiredTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blacklist.demo.entity.FilterInfoConfig">
+    update t_blacklist_config
+    set project_id = #{projectId,jdbcType=BIGINT},
+      project_desc = #{projectDesc,jdbcType=VARCHAR},
+      effect_status = #{effectStatus,jdbcType=INTEGER},
+      effect_time = #{effectTime,jdbcType=BIGINT},
+      expired_time = #{expiredTime,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
