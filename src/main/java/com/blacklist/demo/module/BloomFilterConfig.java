@@ -1,9 +1,14 @@
 package com.blacklist.demo.module;
 
+import com.blacklist.demo.utils.AbstractBloomFilter;
+
 import lombok.Data;
 
 @Data
 public class BloomFilterConfig {
+
+	private Long projectId;
+
 	//过滤器名字
 	private String filterName = "default";
 
@@ -18,5 +23,8 @@ public class BloomFilterConfig {
 
 	//失效时间
 	private Long expiredTime = -1L;
+
+	//
+	private AbstractBloomFilter bloomFilter;
 
 }
