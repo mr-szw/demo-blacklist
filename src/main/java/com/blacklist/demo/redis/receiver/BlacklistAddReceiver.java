@@ -14,27 +14,26 @@ import com.blacklist.demo.utils.GsonUtil;
  * @author by Dawei on 2019/4/30.
  * Redis 消息监听
  */
-@Component
-public class BlacklistAddReceiver implements MessageListener {
+@Component public class BlacklistAddReceiver implements MessageListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(BlacklistAddReceiver.class);
-    /**
-     * 监听消息内容
-     * @param message 传送的消息 包含消息渠道和消息体
-     * @param pattern 订阅模式
-     */
-    @Override
-    public void onMessage(Message message, byte[] pattern) {
-        String patternType = new String(pattern, StandardCharsets.UTF_8);
-        logger.info("get message info message is ={} patternType={}", GsonUtil.toJson(message), patternType);
+	private static final Logger logger = LoggerFactory.getLogger(BlacklistAddReceiver.class);
 
-        byte[] channel = message.getChannel();
+	/**
+	 * 监听消息内容
+	 *
+	 * @param message 传送的消息 包含消息渠道和消息体
+	 * @param pattern 订阅模式
+	 */
+	@Override public void onMessage(Message message, byte[] pattern) {
+		String patternType = new String(pattern, StandardCharsets.UTF_8);
+		logger.info("get message info message is ={} patternType={}", GsonUtil.toJson(message),
+				patternType);
 
-        byte[] body = message.getBody();
+		byte[] channel = message.getChannel();
 
-        String channelName = new String(channel, StandardCharsets.UTF_8);
+		byte[] body = message.getBody();
 
+		String channelName = new String(channel, StandardCharsets.UTF_8);
 
-
-    }
+	}
 }

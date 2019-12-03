@@ -1,11 +1,10 @@
 package com.blacklist.demo.utils;
 
-import java.nio.charset.Charset;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 
 import javax.print.DocFlavor.BYTE_ARRAY;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.blacklist.demo.module.BloomFilterConfig;
 import com.google.common.hash.BloomFilter;
@@ -18,32 +17,31 @@ public abstract class AbstractBloomFilter<T> {
 
 	private BloomFilter bloomFilter;
 
-	private static final Logger logger = LoggerFactory.getLogger(AbstractBloomFilter.class);
-
 	public AbstractBloomFilter(BloomFilterConfig bloomFilterConfig) throws Exception {
 
-		Class<?> superclass = this.getClass().getSuperclass();
+		Type actualTypeArgument = ((ParameterizedType) getClass().getGenericSuperclass())
+				.getActualTypeArguments()[0];
 
-		Class<?> genericType = GenericUtil.getGenericType(superclass);
+		if (!(actualTypeArgument instanceof Class<?>)) {
+			throw new RuntimeException("class type no support");
+		}
 
-		System.out.println(genericType);
 
-		if (genericType == Long.class) {
+		if (Long.class.isAssignableFrom((Class<?>) actualTypeArgument)) {
 			bloomFilter = BloomFilter
 					.create(Funnels.longFunnel(), bloomFilterConfig.getContainerSize());
-		} else if (genericType == String.class) {
-			bloomFilter = BloomFilter.create(Funnels.stringFunnel(Charset.forName("UTF-8")),
+		} else if (String.class.isAssignableFrom((Class<?>) actualTypeArgument)) {
+			bloomFilter = BloomFilter.create(Funnels.stringFunnel(StandardCharsets.UTF_8),
 					bloomFilterConfig.getContainerSize());
-		} else if (genericType == Integer.TYPE) {
+		} else if (Integer.class.isAssignableFrom((Class<?>) actualTypeArgument)) {
 			bloomFilter = BloomFilter
 					.create(Funnels.integerFunnel(), bloomFilterConfig.getContainerSize());
-		} else if (genericType == BYTE_ARRAY.class) {
+		} else if (BYTE_ARRAY.class.isAssignableFrom((Class<?>) actualTypeArgument)) {
 			bloomFilter = BloomFilter
 					.create(Funnels.byteArrayFunnel(), bloomFilterConfig.getContainerSize());
+		} else {
+			throw new RuntimeException("class type no support");
 		}
-		//        else if (genericType == SequentialFunnel.class) {
-		//            bloomFilter = BloomFilter.create(Funnels(), bloomFilterConfig.getContainerSize());
-		//        }
 	}
 
 	public boolean putElement(T element) {

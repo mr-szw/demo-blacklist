@@ -11,7 +11,7 @@ CREATE TABLE `t_blacklist_user_info` (
     `user_name` varchar(255) NOT NULL DEFAULT '' COMMENT 'user_name',
     `black_status` int NOT NULL DEFAULT 0 COMMENT 'black status 1 is , 0 not',
     `effect_time` bigint(20) NOT NULL DEFAULT 0 COMMENT '生效时间',
-    `expired_time;` bigint(20) NOT NULL DEFAULT 0 COMMENT '失效时间',
+    `expired_time` bigint(20) NOT NULL DEFAULT 0 COMMENT '失效时间',
     `create_time` bigint(20) NOT NULL DEFAULT 0 COMMENT '加入时间',
     `update_time` bigint(20) NOT NULL DEFAULT 0 COMMENT '修改时间',
 
@@ -26,12 +26,12 @@ CREATE TABLE `t_blacklist_config` (
     `project_desc`  varchar(255) NOT NULL DEFAULT '' COMMENT '归属项目描述',
     `effect_status` int NOT NULL DEFAULT 1 COMMENT '生效状态 1 is , 0 not',
     `effect_time` bigint(20) NOT NULL DEFAULT 0 COMMENT '项目生效时间 小于或等于0 则 无穷小',
-    `expired_time;` bigint(20) NOT NULL DEFAULT 0 COMMENT '项目失效时间 小于或等于0 则 无穷大',
+    `expired_time` bigint(20) NOT NULL DEFAULT 0 COMMENT '项目失效时间 小于或等于0 则 无穷大',
     `create_time` bigint(20) NOT NULL DEFAULT 0 COMMENT '加入时间',
     `update_time` bigint(20) NOT NULL DEFAULT 0 COMMENT '修改时间',
 
     PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB DEFAULT AUTO_INCREMENT = 1 CHARSET=utf8;
+    ) ENGINE=InnoDB AUTO_INCREMENT = 1  DEFAULT CHARSET=utf8;
 
 show create table t_blacklist_user_info;
 show create table t_blacklist_config;
