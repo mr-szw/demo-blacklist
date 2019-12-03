@@ -30,7 +30,7 @@ public abstract class AbstractBloomFilter {
 	private Long effectTime = -1L;
 
 	//失效时间
-	private Long expiredTime = -1L;
+	private Long expiredTime = Long.MAX_VALUE;
 
 	public AbstractBloomFilter(Long projectId,
 			String filterName, String filterDesc, long containerSize, Long effectTime,

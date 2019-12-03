@@ -17,6 +17,17 @@ import com.blacklist.demo.utils.AbstractBloomFilter;
 @Component
 public class UserBlacklistFilterImpl extends AbstractBloomFilter {
 
+	public UserBlacklistFilterImpl(Long projectId, String filterName, String filterDesc,
+			long containerSize, Long effectTime, Long expiredTime) {
+		super(projectId, filterName, filterDesc, containerSize, effectTime, expiredTime);
+	}
+
+	private UserBlacklistFilterImpl() {
+		super();
+
+	}
+
+
 	@Resource
 	private UserInfoMapper userInfoMapper;
 
@@ -25,10 +36,6 @@ public class UserBlacklistFilterImpl extends AbstractBloomFilter {
 		this.userInfoMapper = userInfoMapper;
 	}
 
-	private UserBlacklistFilterImpl() {
-		super();
-
-	}
 
 	@Override
 	public void initBloomFilter() {

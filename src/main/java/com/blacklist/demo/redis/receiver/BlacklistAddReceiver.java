@@ -1,21 +1,17 @@
 package com.blacklist.demo.redis.receiver;
 
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
+import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import com.blacklist.demo.entity.BlacklistInfo;
-import com.blacklist.demo.module.BloomFilterConfig;
-import com.blacklist.demo.utils.AbstractBloomFilter;
-import com.blacklist.demo.utils.BloomFilterRepository;
+import com.blacklist.demo.service.UserBlacklistFilterImpl;
 import com.blacklist.demo.utils.GsonUtil;
 
 /**
@@ -26,6 +22,9 @@ import com.blacklist.demo.utils.GsonUtil;
 public class BlacklistAddReceiver implements MessageListener {
 
 	private static final Logger logger = LoggerFactory.getLogger(BlacklistAddReceiver.class);
+
+	@Resource
+	private UserBlacklistFilterImpl userBlacklistFilter;
 
 	/**
 	 * 监听消息内容
@@ -48,7 +47,7 @@ public class BlacklistAddReceiver implements MessageListener {
 		BlacklistInfo blacklistInfo = GsonUtil.fromJson(messageBody, BlacklistInfo.class);
 
 		if (blacklistInfo != null) {
-
+			doOperationOnBloomFilter(blacklistInfo);
 		}
 	}
 
@@ -56,22 +55,12 @@ public class BlacklistAddReceiver implements MessageListener {
 		if (blacklistInfo == null) {
 			return;
 		}
+		Long effectTime = userBlacklistFilter.getEffectTime();
+		Long expiredTime = userBlacklistFilter.getExpiredTime();
 
-		Long projectId = blacklistInfo.getProjectId();
-		BloomFilterRepository bloomFilterRepository = BloomFilterRepository.getInstance();
-		List<BloomFilterConfig> bloomFilterConfigList = bloomFilterRepository
-				.getBloomFilterConfigList();
-
-		if (CollectionUtils.isEmpty(bloomFilterConfigList)) {
-			return;
-		}
-		List<Long> projectIdList = bloomFilterConfigList.stream().map(BloomFilterConfig::getProjectId)
-				.collect(Collectors.toList());
-		Map<Long, List<BloomFilterConfig>> bloomConfigMap = bloomFilterConfigList.stream()
-				.collect(Collectors.groupingBy(BloomFilterConfig::getProjectId));
-		if (projectIdList.contains(projectId)) {
-			List<BloomFilterConfig> bloomFilterConfigs = bloomConfigMap.get(projectId);
-			BloomFilterConfig bloomFilterConfig = bloomFilterConfigs.get(0);
+		long currentTimeMillis = System.currentTimeMillis();
+		if (effectTime < currentTimeMillis && expiredTime > currentTimeMillis) {
+			userBlacklistFilter.putElement(blacklistInfo.getUserId());
 		}
 	}
 
